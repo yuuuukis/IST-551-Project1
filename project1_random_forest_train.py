@@ -31,7 +31,7 @@ from hyperopt import fmin, tpe, hp, anneal, Trials, STATUS_OK
 from sklearn.model_selection import cross_val_score
 
 
-df = pd.read_csv("./train_processed_dropped_features1.csv",index_col=0)
+df = pd.read_csv("./train_processed_NA.csv",index_col=0)
 print(df.head())
 df = df.drop(['PatientID'], axis=1)
 df = df.reset_index(drop=True)
@@ -107,7 +107,7 @@ trials = Trials()
 best = fmin(fn=objective,
             space=random_forest_param_space,
             algo=tpe.suggest,
-            max_evals=600,  # can be increased for more exhaustive search
+            max_evals=400,  # can be increased for more exhaustive search
             trials=trials)
 
 print("Best hyperparameters:\n", best)
@@ -133,5 +133,5 @@ best_model = RandomForestClassifier(
 
 best_model.fit(x, y)
 
-joblib.dump(best_model, 'project1_0921_random_forest_fulldata.joblib')
+joblib.dump(best_model, 'train_processed_NA_09_22.joblib')
 #joblib.dump(best_model, 'project1_0920_3.joblib') train_processed_dropped_features_2
